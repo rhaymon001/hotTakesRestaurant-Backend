@@ -5,6 +5,7 @@ dotenv.config();
 import mongoose from "mongoose";
 import connectDB from "./config/dbConn.js";
 import registerRoute from "./routes/register.js";
+import loginRoute from "./routes/login.js";
 const PORT = process.env.PORT || 3500;
 
 //connect to DB
@@ -15,6 +16,7 @@ app.use(express.json());
 
 //routes
 app.use("/register", registerRoute);
+app.use("/login", loginRoute);
 
 mongoose.connection.once("open", () => {
   console.log("connected to mongoDB");

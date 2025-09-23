@@ -19,7 +19,7 @@ const loginController = async (req, res) => {
     const isMatch = await bcrypt.compare(password, foundUser.password);
 
     if (!isMatch) {
-      console.log(`email${email} is invalid`);
+      console.log(`email ${email} is invalid`);
       return res.status(401).json({ message: "Invalid credentials" });
     }
 
@@ -45,9 +45,9 @@ const loginController = async (req, res) => {
 
     res.cookie("jwt", refreshToken, {
       httpOnly: true,
-      secure: true,
+      secure: false,
       sameSite: "Strict",
-      maxAge: 15 * 60 * 1000, // 7days
+      maxAge: 15 * 60 * 1000, // 15 minutes
     });
 
     res.json({

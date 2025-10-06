@@ -19,7 +19,7 @@ const loginController = async (req, res) => {
     const isMatch = await bcrypt.compare(password, foundUser.password);
 
     if (!isMatch) {
-      console.log(`email ${email} is invalid`);
+      console.log("invalid password");
       return res.status(401).json({ message: "Invalid credentials" });
     }
 
@@ -29,7 +29,7 @@ const loginController = async (req, res) => {
         role: foundUser.role,
       },
       process.env.ACCESS_TOKEN_SECRET,
-      { expiresIn: "1m" }
+      { expiresIn: "1h" }
     );
 
     const refreshToken = jwt.sign(
@@ -37,7 +37,7 @@ const loginController = async (req, res) => {
         id: foundUser._id,
       },
       process.env.REFRESH_TOKEN_SECRET,
-      { expiresIn: "15m" }
+      { expiresIn: "1d" }
     );
 
     foundUser.refreshToken = refreshToken;
@@ -45,9 +45,9 @@ const loginController = async (req, res) => {
 
     res.cookie("jwt", refreshToken, {
       httpOnly: true,
-      secure: false,
-      sameSite: "Strict",
-      maxAge: 15 * 60 * 1000, // 15 minutes
+      secure: process.env.NODE_ENV === "production",
+      sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax",
+      maxAge: 24 * 60 * 60 * 1000,
     });
 
     res.json({

@@ -4,7 +4,7 @@ const getAllfoods = async (req, res) => {
   try {
     const foodItems = await FoodItem.find();
     if (!foodItems.length) {
-      return res.status(204).json({ message: "no food items available" });
+      return res.status(204).json([]);
     }
 
     res.json(foodItems);
@@ -14,9 +14,10 @@ const getAllfoods = async (req, res) => {
 };
 
 const createFoodItem = async (req, res) => {
-  const { name, price, description, category } = req.body;
+  const { name, price, description } = req.body;
+
   if (!name || !price) {
-    return res.status(401).json({ message: "no name and price!" });
+    return res.status(400).json({ message: "no name and price!" });
   }
 
   const imageUrl = req.file?.path;
@@ -26,14 +27,13 @@ const createFoodItem = async (req, res) => {
       name,
       price,
       description,
-      category,
       imageUrl,
     });
 
     res.status(201).json(newFood);
   } catch (error) {
-    console.log(error.message);
-    console("error from createFood controller");
+    console.error("Error from createFood controller:", JSON.stringify(error));
+    res.status(500).json({ message: error.message || "Server error" });
   }
 };
 
@@ -43,16 +43,24 @@ const updateFoodItem = async (req, res) => {
   }
 
   const foodId = req.params.id;
+  const { name, price, description } = req.body;
+  const updateData = {
+    name,
+    price,
+    description,
+  };
+  console.log(req.body);
+
+  if (req.file) {
+    updateData.imageUrl = req.file.path;
+  }
 
   try {
-    const { name, price, description, category, imageUrl } = req.body;
-    const updatedFood = await FoodItem.findByIdAndUpdate(
-      foodId,
-      { name, price, description, category, imageUrl },
-      { new: true }
-    );
+    const updatedFood = await FoodItem.findByIdAndUpdate(foodId, updateData, {
+      new: true,
+    });
     if (!updatedFood) {
-      return res.status().json({ message: "food item not found" });
+      return res.status(404).json({ message: "food item not found" });
     }
     res.json(updatedFood);
   } catch (error) {

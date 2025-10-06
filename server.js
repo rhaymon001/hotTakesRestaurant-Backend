@@ -2,6 +2,9 @@ import dotenv from "dotenv";
 dotenv.config();
 import express from "express";
 const app = express();
+import cors from "cors";
+import credentials from "./middleware/credentials.js";
+import corsOptions from "./config/corsOptions.js";
 import mongoose from "mongoose";
 import connectDB from "./config/dbConn.js";
 import registerRoute from "./routes/register.js";
@@ -15,6 +18,16 @@ const PORT = process.env.PORT || 3500;
 
 //connect to DB
 connectDB();
+
+// Handle options credentials check - before CORS!
+// and fetch cookies credentials requirement
+app.use(credentials);
+
+// Cross Origin Resource Sharing
+app.use(cors(corsOptions));
+
+// built-in middleware to handle urlencoded form data
+app.use(express.urlencoded({ extended: false }));
 
 //built in middleware for json
 app.use(express.json());

@@ -16,7 +16,7 @@ const logoutController = async (req, res) => {
         sameSite: "none",
         secure: true,
       });
-      res.sendStatus(204);
+     return res.sendStatus(204);
     }
 
     foundUser.refreshToken = "";

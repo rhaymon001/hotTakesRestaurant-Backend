@@ -13,7 +13,7 @@ const verifyAdmin = verifyRole(["admin"]);
 
 router.get("/", getAllfoods);
 router.post("/", verifyAdmin, upload.single("image"), createFoodItem);
-router.put("/:id", verifyAdmin, updateFoodItem);
+router.put("/:id", verifyAdmin, upload.single("image"), updateFoodItem);
 router.delete("/:id", verifyAdmin, deleteFoodItem);
 
 export default router;

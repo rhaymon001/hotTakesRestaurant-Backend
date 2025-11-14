@@ -21,7 +21,6 @@ const createFoodItem = async (req, res) => {
   }
 
   const imageUrl = req.file?.path;
-
   try {
     const newFood = await FoodItem.create({
       name,

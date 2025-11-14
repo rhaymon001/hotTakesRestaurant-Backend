@@ -14,6 +14,8 @@ import logoutRoute from "./routes/logout.js";
 import foodItemsRoute from "./routes/api/foodItems.js";
 import cookieParser from "cookie-parser";
 import verifyJWT from "./middleware/verifyJWT.js";
+import paymentRoute from "./routes/api/payment.js";
+import orderRoute from "./routes/api/Order.js";
 const PORT = process.env.PORT || 3500;
 
 //connect to DB
@@ -39,7 +41,8 @@ app.use("/register", registerRoute);
 app.use("/login", loginRoute);
 app.use("/refresh", refreshRoute);
 app.use("/logout", logoutRoute);
-
+app.use("/api/payment", paymentRoute);
+app.use("/api/orders", orderRoute);
 //middleware for JWT verification
 app.use(verifyJWT);
 app.use("/foods", foodItemsRoute);

@@ -37,7 +37,7 @@ const getOrderById = async (req, res) => {
         .status(404)
         .json({ success: false, message: "Order not found" });
 
-    res.status(200).json({ success: true, order });
+    res.status(200).json(order);
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
   }

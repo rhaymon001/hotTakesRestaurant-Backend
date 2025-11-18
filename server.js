@@ -16,6 +16,7 @@ import cookieParser from "cookie-parser";
 import verifyJWT from "./middleware/verifyJWT.js";
 import paymentRoute from "./routes/api/payment.js";
 import orderRoute from "./routes/api/Order.js";
+import usersRoute from "./routes/api/user.js";
 const PORT = process.env.PORT || 3500;
 
 //connect to DB
@@ -41,11 +42,13 @@ app.use("/register", registerRoute);
 app.use("/login", loginRoute);
 app.use("/refresh", refreshRoute);
 app.use("/logout", logoutRoute);
-app.use("/api/payment", paymentRoute);
-app.use("/api/orders", orderRoute);
+
 //middleware for JWT verification
 app.use(verifyJWT);
+app.use("/api/payment", paymentRoute);
+app.use("/api/orders", orderRoute);
 app.use("/foods", foodItemsRoute);
+app.use("/api/users", usersRoute);
 mongoose.connection.once("open", () => {
   console.log("connected to mongoDB");
 

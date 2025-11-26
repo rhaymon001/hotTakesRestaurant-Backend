@@ -25,9 +25,14 @@ connectDB();
 // Handle options credentials check - before CORS!
 // and fetch cookies credentials requirement
 app.use(credentials);
-
-// Cross Origin Resource Sharing
 app.use(cors(corsOptions));
+// Cross Origin Resource Sharing
+// app.use(
+//   cors({
+//     origin: "https://1jwgr90t-5173.uks1.devtunnels.ms",
+//     credentials: true,
+//   })
+// );
 
 // built-in middleware to handle urlencoded form data
 app.use(express.urlencoded({ extended: false }));

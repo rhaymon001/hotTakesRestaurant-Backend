@@ -3,6 +3,7 @@
 import User from "../model/User.js";
 import bcrypt from "bcryptjs";
 import { roleHierarchy } from "../utils.js";
+import crypto from "crypto";
 
 const getAllUsers = async (req, res) => {
   try {
@@ -39,20 +40,28 @@ const createUser = async (req, res) => {
       });
     }
 
-    //Hash password
-    const salt = await bcrypt.genSalt(10);
-    const hashed = await bcrypt.hash(password, salt);
+    // generate temporary password
+    const tempPassword = crypto.randomBytes(4).toString("hex"); // e.g "af39a2cd"
+    const hashedPassword = await bcrypt.hash(tempPassword, 10);
 
     const newUser = await User.create({
       name,
       email,
       role,
-      password: hashed,
+      password: hashedPassword,
+      mustChangePassword: true,
     });
 
     newUser.password = undefined;
-
-    res.status(201).json({ message: "User created", user: newUser });
+    console.log(tempPassword);
+    res.status(201).json({
+      message: "User created",
+      user: {
+        id: newUser._id,
+        email: newUser.email,
+        tempPassword,
+      },
+    });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

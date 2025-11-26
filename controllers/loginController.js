@@ -45,8 +45,8 @@ const loginController = async (req, res) => {
 
     res.cookie("jwt", refreshToken, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax",
+      secure: true,
+      sameSite: "None",
       maxAge: 24 * 60 * 60 * 1000,
     });
 
@@ -54,6 +54,7 @@ const loginController = async (req, res) => {
       id: foundUser._id,
       email: foundUser.email,
       role: foundUser.role,
+      name: foundUser.name,
       accessToken,
     });
     console.log(accessToken);

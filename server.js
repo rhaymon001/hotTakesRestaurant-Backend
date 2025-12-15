@@ -17,6 +17,8 @@ import verifyJWT from "./middleware/verifyJWT.js";
 import paymentRoute from "./routes/api/payment.js";
 import orderRoute from "./routes/api/Order.js";
 import usersRoute from "./routes/api/user.js";
+import settingsRoute from "./routes/api/settings.js";
+import authRouter from "./routes/auth.js";
 const PORT = process.env.PORT || 3500;
 
 //connect to DB
@@ -25,14 +27,8 @@ connectDB();
 // Handle options credentials check - before CORS!
 // and fetch cookies credentials requirement
 app.use(credentials);
+
 app.use(cors(corsOptions));
-// Cross Origin Resource Sharing
-// app.use(
-//   cors({
-//     origin: "https://1jwgr90t-5173.uks1.devtunnels.ms",
-//     credentials: true,
-//   })
-// );
 
 // built-in middleware to handle urlencoded form data
 app.use(express.urlencoded({ extended: false }));
@@ -42,18 +38,22 @@ app.use(express.json());
 
 //cookie-parser middle ware
 app.use(cookieParser());
+
 //routes
 app.use("/register", registerRoute);
 app.use("/login", loginRoute);
 app.use("/refresh", refreshRoute);
 app.use("/logout", logoutRoute);
+app.use("/auth", authRouter); // public endpoints for reset
 
 //middleware for JWT verification
 app.use(verifyJWT);
+
 app.use("/api/payment", paymentRoute);
 app.use("/api/orders", orderRoute);
 app.use("/foods", foodItemsRoute);
 app.use("/api/users", usersRoute);
+app.use("/api/settings", settingsRoute);
 mongoose.connection.once("open", () => {
   console.log("connected to mongoDB");
 

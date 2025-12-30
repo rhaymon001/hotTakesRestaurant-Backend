@@ -58,6 +58,7 @@ const loginController = async (req, res) => {
       accessToken,
       mustChangePassword: foundUser.mustChangePassword,
     });
+    console.log(accessToken);
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "server error!" });

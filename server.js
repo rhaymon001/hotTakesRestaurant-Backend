@@ -19,6 +19,7 @@ import orderRoute from "./routes/api/Order.js";
 import usersRoute from "./routes/api/user.js";
 import settingsRoute from "./routes/api/settings.js";
 import authRouter from "./routes/auth.js";
+import businessInfoRoute from "./routes/api/businessInfo.js";
 const PORT = process.env.PORT || 3500;
 
 //connect to DB
@@ -45,13 +46,15 @@ app.use("/login", loginRoute);
 app.use("/refresh", refreshRoute);
 app.use("/logout", logoutRoute);
 app.use("/auth", authRouter); // public endpoints for reset
+app.use("/api/business-info", businessInfoRoute);
+app.use("/foods", foodItemsRoute);
 
 //middleware for JWT verification
 app.use(verifyJWT);
 
 app.use("/api/payment", paymentRoute);
 app.use("/api/orders", orderRoute);
-app.use("/foods", foodItemsRoute);
+
 app.use("/api/users", usersRoute);
 app.use("/api/settings", settingsRoute);
 mongoose.connection.once("open", () => {

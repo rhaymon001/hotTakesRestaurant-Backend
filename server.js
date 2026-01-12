@@ -59,8 +59,6 @@ app.use("/api/users", usersRoute);
 app.use("/api/settings", settingsRoute);
 mongoose.connection.once("open", () => {
   console.log("connected to mongoDB");
-
-  app.listen(PORT, () => {
-    console.log(`server is running on port ${PORT}`);
-  });
 });
+
+export default app;

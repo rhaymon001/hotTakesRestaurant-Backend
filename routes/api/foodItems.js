@@ -9,7 +9,7 @@ import upload from "../../middleware/upload.js";
 import verifyRole from "../../middleware/verifyRoles.js";
 
 const router = express.Router();
-const verifyAdmin = verifyRole(["admin"]);
+const verifyAdmin = verifyRole(["admin", "superadmin"]);
 
 router.get("/", getAllfoods);
 router.post("/", verifyAdmin, upload.single("image"), createFoodItem);

@@ -16,6 +16,10 @@ import cookieParser from "cookie-parser";
 import verifyJWT from "./middleware/verifyJWT.js";
 import paymentRoute from "./routes/api/payment.js";
 import orderRoute from "./routes/api/Order.js";
+import usersRoute from "./routes/api/user.js";
+import settingsRoute from "./routes/api/settings.js";
+import authRouter from "./routes/auth.js";
+import businessInfoRoute from "./routes/api/businessInfo.js";
 const PORT = process.env.PORT || 3500;
 
 //connect to DB
@@ -25,7 +29,6 @@ connectDB();
 // and fetch cookies credentials requirement
 app.use(credentials);
 
-// Cross Origin Resource Sharing
 app.use(cors(corsOptions));
 
 // built-in middleware to handle urlencoded form data
@@ -36,16 +39,24 @@ app.use(express.json());
 
 //cookie-parser middle ware
 app.use(cookieParser());
+
 //routes
 app.use("/register", registerRoute);
 app.use("/login", loginRoute);
 app.use("/refresh", refreshRoute);
 app.use("/logout", logoutRoute);
-app.use("/api/payment", paymentRoute);
-app.use("/api/orders", orderRoute);
+app.use("/auth", authRouter); // public endpoints for reset
+app.use("/api/business-info", businessInfoRoute);
+app.use("/foods", foodItemsRoute);
+
 //middleware for JWT verification
 app.use(verifyJWT);
-app.use("/foods", foodItemsRoute);
+
+app.use("/api/payment", paymentRoute);
+app.use("/api/orders", orderRoute);
+
+app.use("/api/users", usersRoute);
+app.use("/api/settings", settingsRoute);
 mongoose.connection.once("open", () => {
   console.log("connected to mongoDB");
 

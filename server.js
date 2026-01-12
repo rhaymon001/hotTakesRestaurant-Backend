@@ -23,7 +23,7 @@ import businessInfoRoute from "./routes/api/businessInfo.js";
 const PORT = process.env.PORT || 3500;
 
 //connect to DB
-connectDB();
+await connectDB();
 
 // Handle options credentials check - before CORS!
 // and fetch cookies credentials requirement
@@ -57,8 +57,5 @@ app.use("/api/orders", orderRoute);
 
 app.use("/api/users", usersRoute);
 app.use("/api/settings", settingsRoute);
-mongoose.connection.once("open", () => {
-  console.log("connected to mongoDB");
-});
 
 export default app;

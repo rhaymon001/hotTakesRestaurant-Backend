@@ -41,6 +41,10 @@ app.use(express.json());
 app.use(cookieParser());
 
 //routes
+app.get("/", (req, res) => {
+  res.send("Backend is live 🚀");
+});
+
 app.use("/register", registerRoute);
 app.use("/login", loginRoute);
 app.use("/refresh", refreshRoute);

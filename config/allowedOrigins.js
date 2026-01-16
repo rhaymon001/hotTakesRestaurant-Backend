@@ -3,6 +3,7 @@ dotenv.config();
 const allowedOrigins = [
   "http://localhost:5173",
   "https://hot-takes-restaurant-frontend.vercel.app",
-  "https://1jwgr90t-5173.uks1.devtunnels.ms",
+  "https://hot-takes-restaurant-frontend-9ldt1bm44.vercel.app",
+  "hot-takes-restaurant-fr-git-9d343d-abdulrahman-habeebs-projects.vercel.app",
 ];
 export default allowedOrigins;

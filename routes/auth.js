@@ -7,7 +7,7 @@ import {
 import {
   resetPasswordSchema,
   requestPasswordResetSchema,
-} from "../validators/passwordreset.validator.js";
+} from "../validators/passwordReset.validator.js";
 import { validate } from "../middleware/validate.js";
 
 const router = express.Router();

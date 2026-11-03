@@ -13,8 +13,6 @@ const router = express.Router();
 // Public
 router.get(
   "/",
-  verifyJWT,
-  verifyRoles(["admin", "superadmin"]),
   getBusinessInfo,
 );
 

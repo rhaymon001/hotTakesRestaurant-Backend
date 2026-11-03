@@ -32,7 +32,7 @@ const createUser = async (req, res) => {
   try {
     const loggedInUser = req.user; // admin creating another user
 
-    const { name, email, role = "user", password } = req.body;
+    const { name, email, role = "user" } = req.body;
 
     if (roleHierarchy[loggedInUser.role] <= roleHierarchy[role]) {
       return res.status(403).json({

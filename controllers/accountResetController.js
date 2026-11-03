@@ -8,7 +8,6 @@ import sendEmail from "../utils/sendEmail.js"; // optional helper you may create
 export const requestPasswordReset = async (req, res) => {
   try {
     const { email } = req.body;
-    if (!email) return res.status(400).json({ message: "Email required" });
 
     const user = await User.findOne({ email });
     if (!user) {
@@ -66,8 +65,6 @@ export const resetPassword = async (req, res) => {
   try {
     const { token } = req.params;
     const { newPassword } = req.body;
-    if (!token || !newPassword)
-      return res.status(400).json({ message: "Invalid request" });
 
     const hashed = crypto.createHash("sha256").update(token).digest("hex");
     const user = await User.findOne({
